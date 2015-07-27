@@ -29,6 +29,7 @@
 #include "menu/options/SoundOptionsMenu.h"
 #include "menu/options/TeamOptionsMenu.h"
 
+#include "menu/network/NetEditServersMenu.h"
 #include "menu/network/NetLobbyMenu.h"
 #include "menu/network/NetNewLevelMenu.h"
 #include "menu/network/NetNewRoomMenu.h"
@@ -146,6 +147,7 @@ class MenuState : public GameState
 
 		// Multiplayer menu
 		UI_NetServersMenu* mNetServersMenu;
+		UI_NetEditServersMenu* mNetEditServersMenu;
 		UI_NetLobbyMenu* mNetLobbyMenu;
 		UI_NetNewLevelMenu* mNetNewLevelMenu;
 		UI_NetNewRoomMenu* mNetNewRoomMenu;

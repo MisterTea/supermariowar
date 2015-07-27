@@ -137,6 +137,7 @@ void MenuState::CreateMenu()
     mBonusWheelMenu = new UI_BonusWheelMenu();
 
     mNetServersMenu = new UI_NetServersMenu();
+    mNetEditServersMenu= new UI_NetEditServersMenu();
     mNetLobbyMenu = new UI_NetLobbyMenu();
     mNetNewLevelMenu = new UI_NetNewLevelMenu(mGameSettingsMenu);
     mNetNewRoomMenu = new UI_NetNewRoomMenu();
@@ -1089,6 +1090,9 @@ void MenuState::update()
 
             if (MENU_CODE_TO_NET_SERVERLIST == code) {
                 mNetServersMenu->OpenServerList();
+            } else if (MENU_CODE_TO_NET_ADDREMOVE_SERVER_MENU == code) {
+                mCurrentMenu = mNetEditServersMenu;
+                mCurrentMenu->ResetMenu();
             } else if (MENU_CODE_NET_SERVERLIST_EXIT == code || MENU_CODE_NET_CONNECT_ABORT == code) {
                 if (MENU_CODE_NET_SERVERLIST_EXIT == code)
                     netplay.currentMenuChanged = true;
