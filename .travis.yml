@@ -2,43 +2,47 @@ language: cpp
 
 compiler:
   - gcc
-  - clang
 
 env:
-  - SMW_USE_SDL2=false
-  - SMW_USE_SDL2=true
+  global:
+    # Coverity Scan token
+    - secure: "b0ClZiz7IhJj265vifI7AiEdofPsiP4b7qNrHuLS+B3z0sHhhk5qCDrdR8Lcya531jxTxcyDlVK79s1fpnkSuMYeLXNO2QvJErwwBx26uVHUuRxx1zEaBRifsWpnR/UHCRFpP5YNC/xVi2EegSW+jCogrhBsOnzpiAXGUfbo3gllm3w4LCd8Lkw52WYQ+NkuSq0K0J5miOYLikxP3iVNzXcqhVjM/QUf71CEmzGUNMKKz/oXZ3PIP6HAz51b2v4JkNrpJ8krL6Bccmsfdvrfd2eQLt0rqUuuz1CtI1wboh/0i2n5Ef21N7zTpapwWl0W9q8QTJoJDzxvIAvAvF7e3bV9i++DUyUt+xfVTL8cBCelP5o5vQjsas9uQ6wfpLa3NTnuBhhliiDN4c3gdCgtmnwfP1nzsBOrGOLv6ZZG/DrkGdH4BssgT6g2OHTQMoA5oGyBbqJ6ZDWtqxCDuyEaqbn3CCZQnVirHmLfBGJ2nfZ2+J9RFP7a5rShgU3FC+FafCqWa4v+QgRWm/c99z2kl13D8BF4ulknHvZMrQd9AYk79leyGiO8fKf8WEBCPpEszg9lE40uUNLi0tUluZ248behpr1NSXgqaEOlrk+BCGKgwFFYGHqE9OaBk6Iv4e9NEUl/QItPncY+yWuceylDoPzBi2u06+oCpMbE7zgSsmk="
+    - SMW_USE_SDL2=false
 
 branches:
   only:
     - master
+    - coverity_scan
+
+sudo: false
 
 before_install:
-  - if [[ "$SMW_USE_SDL2" == "true" ]]; then sudo add-apt-repository ppa:zoogie/sdl2-snapshots -y; fi
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq cmake
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-  - if [[ "$SMW_USE_SDL2" == "false" ]]; then sudo apt-get install -qq libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev; fi
-  - if [[ "$SMW_USE_SDL2" == "true" ]];  then sudo apt-get install -qq libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev; fi
 
 before_script:
-  - mkdir build
-  - cd build
-  - if [[ "$SMW_USE_SDL2" == "false" ]]; then cmake ..; fi
-  - if [[ "$SMW_USE_SDL2" == "true" ]];  then cmake -D USE_SDL2_LIBS:BOOL=ON ..; fi
-
-script:
   - $CXX --version
   - cmake --version
-  - if [[ "$SMW_USE_SDL2" == "false" ]]; then sdl-config --version; fi
-  - if [[ "$SMW_USE_SDL2" == "false" ]]; then make; fi
-  - if [[ "$SMW_USE_SDL2" == "true" ]];  then sdl2-config --version; fi
-  - if [[ "$SMW_USE_SDL2" == "true" ]];  then make smw; fi
+  - cmake .
+
+script:
+  - make
 
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
+    - cmake
     - gcc-4.8
     - g++-4.8
-    - clang
+    - libsdl1.2-dev
+    - libsdl-image1.2-dev
+    - libsdl-mixer1.2-dev
+  coverity_scan:
+    project:
+      name: "mmatyas/supermariowar"
+      description: "Build submitted via Travis CI"
+    notification_email: mmatyas@inf.u-szeged.hu
+    build_command_prepend: "cmake ."
+    build_command: "make"
+    branch_pattern: coverity_scan
