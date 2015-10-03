@@ -354,7 +354,7 @@ int main(int argc, char *argv[])
     }
 
     //Load the gfx color palette
-    gfx_loadpalette(convertPathCP("gfx/packs/palette.bmp", gamegraphicspacklist->current_name()));
+    gfx_loadpalette(convertPathCP("gfx/packs/palette.png", gamegraphicspacklist->current_name()));
 
     //Call to setup input optimization
     game_values.playerInput.CheckIfMouseUsed();

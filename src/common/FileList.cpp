@@ -292,7 +292,7 @@ SkinListNode::SkinListNode(std::string skinName, std::string skinPath)
 
 SkinList::SkinList()
 {
-    DirectoryListing d(convertPath("gfx/skins/"), ".bmp");
+    DirectoryListing d(convertPath("gfx/skins/"), ".png");
     std::string curname;
     while (d(curname)) {
         std::string sShortSkinName = stripCreatorAndDotMap(curname);

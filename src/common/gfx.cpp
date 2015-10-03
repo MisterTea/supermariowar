@@ -76,10 +76,10 @@ SDL_Surface * gfx_createskinsurface(
     SDL_Surface * temp = SDL_CreateRGBSurface(skin->flags, 32 * loops, 32, skin->format->BitsPerPixel, skin->format->Rmask, skin->format->Gmask, skin->format->Bmask, skin->format->Amask);
 
     //Take the loaded skin and colorize it for each state (normal, 3 frames of invincibiliy, shielded, tagged, ztarred. got shine)
-    if (SDL_MUSTLOCK(temp))
+    if (true || SDL_MUSTLOCK(temp))
         SDL_LockSurface(temp);
 
-    if (SDL_MUSTLOCK(skin))
+    if (true || SDL_MUSTLOCK(skin))
         SDL_LockSurface(skin);
 
     Uint8 byteperframe = 128;
@@ -100,7 +100,9 @@ SDL_Surface * gfx_createskinsurface(
             Uint8 iColorByte1 = pixels[skincounter + 0];
             Uint8 iColorByte2 = pixels[skincounter + 1];
             Uint8 iColorByte3 = pixels[skincounter + 2];
-
+            
+                cout << "Colors: " << int(iColorByte1) << " " << int(iColorByte2) << " " << int(iColorByte3) << endl;
+            
             bool fFoundColor = false;
             for (unsigned short m = 0; m < gfx.getPalette().colorCount(); m++) {
                 if (gfx.getPalette().matchesColorAtID(m, iColorByte1, iColorByte2, iColorByte3)) {
